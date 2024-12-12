@@ -60,14 +60,6 @@ go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && p
 print_status "Installing Docker..."
 sudo snap install docker && print_success "Docker installed successfully." || print_error "Failed to install Docker."
 
-# Pull and run Acunetix Docker image
-print_status "Pulling Acunetix Docker image..."
-docker pull secfa/docker-awvs && print_success "Acunetix Docker image pulled successfully." || print_error "Failed to pull Acunetix Docker image."
-
-print_status "Running Acunetix Docker container..."
-docker run -it -d -p 13424:3443 --cap-add LINUX_IMMUTABLE secfa/docker-awvs && \
-print_success "Acunetix Docker container is running on https://<your-ip>:13424" || \
-print_error "Failed to run Acunetix Docker container."
 
 # Install Python3-pip
 print_status "Installing Python3-pip..."
@@ -77,7 +69,17 @@ sudo apt install -y python3-pip && print_success "Python3-pip installed successf
 print_status "Installing sqlmap..."
 pip install sqlmap && print_success "sqlmap installed successfully." || print_error "Failed to install sqlmap."
 
+# Pull and run Acunetix Docker image
+print_status "Pulling Acunetix Docker image..."
+sudo docker pull secfa/docker-awvs && print_success "Acunetix Docker image pulled successfully." || print_error "Failed to pull Acunetix Docker image."
+
+print_status "Running Acunetix Docker container..."
+sudo docker run -it -d -p 13424:3443 --cap-add LINUX_IMMUTABLE secfa/docker-awvs && \
+print_success "Acunetix Docker container is running on https://<your-ip>:13424" || \
+print_error "Failed to run Acunetix Docker container."
+
 # Final message
+
 print_success "All tasks completed!"
 echo -e "${CYAN}Use the tools responsibly. Happy Hacking!${RESET}"
 
